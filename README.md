@@ -1,120 +1,211 @@
-<<<<<<< HEAD
-# RecruitAI 🤖
+<div align="center">
 
-AI-Powered Candidate Discovery & Ranking System
+# 🤖 RecruitAI
 
-## Overview
+### AI-Powered Candidate Discovery & Ranking System
 
-RecruitAI helps recruiters identify the best candidates by understanding the meaning of a Job Description instead of relying solely on keyword matching.
+🚀 Understanding Job Descriptions Beyond Keywords
 
-The system combines semantic search, candidate skills, career history, experience, and recruiter activity signals to generate a ranked shortlist of candidates.
+[![Python](https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python)]
+[![Streamlit](https://img.shields.io/badge/Streamlit-App-red?style=for-the-badge&logo=streamlit)]
+[![Machine Learning](https://img.shields.io/badge/Machine-Learning-green?style=for-the-badge)]
+[![Sentence Transformers](https://img.shields.io/badge/SentenceTransformers-NLP-orange?style=for-the-badge)]
 
----
-
-## Features
-
-* Semantic Job Description Understanding
-* AI-Powered Candidate Ranking
-* Hybrid Scoring Model
-* Career History Analysis
-* Recruiter Signal Integration
-* Explainable Recommendations
-* Streamlit Dashboard
-* CSV Submission Generation
+</div>
 
 ---
 
-## Tech Stack
+## 🎯 Problem Statement
+
+Recruiters often review hundreds of profiles and still miss top talent because traditional Applicant Tracking Systems rely heavily on keyword matching.
+
+RecruitAI solves this problem by:
+
+✅ Understanding Job Descriptions semantically
+
+✅ Evaluating complete candidate profiles
+
+✅ Leveraging recruiter signals and career history
+
+✅ Generating explainable candidate rankings
+
+✅ Producing recruiter-ready shortlists
+
+---
+
+## ✨ Key Features
+
+| Feature | Description |
+|----------|------------|
+| 🧠 Semantic Matching | Understands candidate relevance using embeddings |
+| 📊 Hybrid Ranking | Combines AI similarity + recruiter signals |
+| 🎯 Candidate Discovery | Finds strong candidates beyond keyword matching |
+| 📈 Explainable AI | Shows why candidates were recommended |
+| ⚡ Streamlit Dashboard | Interactive recruiter interface |
+| 📄 Submission Generation | Generates ranked candidate output CSV |
+
+---
+
+## 🏗️ System Architecture
+
+```text
+Job Description
+       │
+       ▼
+Sentence Transformer
+       │
+       ▼
+JD Embedding Vector
+       │
+       ▼
+Candidate Profiles
+       │
+       ▼
+Candidate Embeddings
+       │
+       ▼
+Hybrid Scoring Engine
+       │
+       ▼
+Candidate Ranking
+       │
+       ▼
+Top Recommended Candidates
+```
+
+---
+
+## 🧠 Ranking Methodology
+
+### 1️⃣ Semantic Similarity
+
+Measures relevance between:
+
+- Job Description
+- Candidate Summary
+- Candidate Skills
+
+Using:
+
+- Sentence Transformers
+- Cosine Similarity
+
+### 2️⃣ Experience Score
+
+Additional weighting based on:
+
+- Years of Experience
+- Career Relevance
+
+### 3️⃣ Recruiter Signals
+
+Includes:
+
+- GitHub Activity Score
+- Recruiter Response Rate
+- Interview Completion Rate
+- Open To Work Status
+
+### 4️⃣ Final Hybrid Score
+
+```python
+Final Score =
+Semantic Score
++ Experience Score
++ GitHub Activity Score
++ Recruiter Response Score
++ Interview Completion Score
++ Open To Work Bonus
+```
+
+---
+
+## 🛠️ Tech Stack
 
 ### Frontend
 
-* Streamlit
+- Streamlit
 
 ### Backend
 
-* Python
+- Python
 
 ### AI / ML
 
-* Sentence Transformers
-* all-MiniLM-L6-v2
-* Cosine Similarity
+- Sentence Transformers
+- all-MiniLM-L6-v2
+- Scikit-Learn
+- Cosine Similarity
 
 ### Data Processing
 
-* Pandas
-* NumPy
-
-### Machine Learning Libraries
-
-* Scikit-Learn
+- Pandas
+- NumPy
 
 ---
 
-## Architecture
-
-Job Description
-↓
-Sentence Transformer Embedding
-↓
-Candidate Embeddings
-↓
-Hybrid Scoring Engine
-↓
-Candidate Ranking
-↓
-Top 10 Recommended Candidates
-
----
-
-## UI Screenshots
+## 📸 Screenshots
 
 ### Dashboard
 
-(Add Screenshot Here)
+<p align="center">
+Add Screenshot Here
+</p>
 
-### Candidate Ranking Results
+### Candidate Rankings
 
-(Add Screenshot Here)
+<p align="center">
+Add Screenshot Here
+</p>
 
-### Why Recommended Section
+### Recommendation Details
 
-(Add Screenshot Here)
-
----
-
-## Scoring Methodology
-
-Final Score =
-
-* Semantic Similarity
-* Experience Score
-* GitHub Activity Score
-* Recruiter Response Rate
-* Interview Completion Rate
-* Open To Work Signal
+<p align="center">
+Add Screenshot Here
+</p>
 
 ---
 
-## Dataset Fields Used
+## 📂 Project Structure
 
-* Profile Summary
-* Skills
-* Career History
-* Years of Experience
-* GitHub Activity Score
-* Recruiter Response Rate
-* Interview Completion Rate
-* Open To Work Flag
+```text
+RecruitAI/
+│
+├── backend/
+│   ├── rank_candidates.py
+│   ├── batch_ranker.py
+│   ├── generate_submission.py
+│   └── data/
+│
+├── frontend/
+│   └── app.py
+│
+├── requirements.txt
+├── submission.csv
+└── README.md
+```
 
 ---
 
-## How To Run
+## 📊 Dataset Features Used
+
+- Candidate Summary
+- Candidate Skills
+- Job Title
+- Experience
+- GitHub Activity
+- Recruiter Response Rate
+- Interview Completion Rate
+- Open To Work Status
+
+---
+
+## ⚙️ Installation
 
 ### Clone Repository
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/harshitaojha123/RecruitAI.git
 cd RecruitAI
 ```
 
@@ -133,24 +224,87 @@ streamlit run app.py
 
 ---
 
-## Output
+## 📄 Output
 
-The system generates:
+The system produces:
 
-* Ranked Candidate List
-* Explainable Recommendations
-* submission.csv
+✅ Ranked Candidate Shortlist
+
+✅ Candidate Recommendation Dashboard
+
+✅ submission.csv
 
 ---
 
-## Future Improvements
+## 🔮 Future Improvements
 
-* Vector Database Integration
-* LLM Re-ranking
-* Resume Parsing
-* Multi-stage Retrieval Pipeline
-* Advanced Explainable AI Ranking
-=======
-# RecruitAI
-RecruitAI is an AI-powered candidate discovery and ranking system that helps recruiters identify the most relevant candidates by understanding job requirements semantically rather than relying solely on keyword matching. The platform analyzes candidate profiles using skills, career history, experience, recruiter activity signals.
->>>>>>> e024b67cea045ee391be6262c5777122116f2fdf
+- FAISS Vector Search
+- Pinecone Integration
+- LLM Re-Ranking
+- Resume Parsing
+- Multi-Agent Recruitment Pipeline
+- Explainable AI Dashboard
+
+---
+
+## 👩‍💻 Author
+
+### Harshita Ojha
+
+🚀 Software Developer
+
+🧠 AI/ML Enthusiast
+
+💻 MERN Stack Developer
+
+🔗 GitHub: https://github.com/harshitaojha123
+
+🔗 LinkedIn: https://www.linkedin.com/in/harshita-ojha-4970b4296/
+
+---
+
+<div align="center">
+
+⭐ If you found this project interesting, please consider starring the repository ⭐
+
+</div>
+
+
+## 📊 Dataset Setup
+
+⚠️ The original dataset is **not included in this repository** because it exceeds GitHub's file size limit (100 MB).
+
+To run the project locally, download the dataset provided by the hackathon organizers and place:
+
+`candidates.jsonl`
+
+inside:
+
+```text
+backend/data/raw/
+```
+
+Expected structure:
+
+```text
+RecruitAI/
+│
+├── backend/
+│   ├── data/
+│   │   └── raw/
+│   │       └── candidates.jsonl
+│   │
+│   └── rank_candidates.py
+│
+├── frontend/
+│   └── app.py
+│
+└── README.md
+```
+
+Once the dataset is placed correctly, start the application using:
+
+```bash
+cd frontend
+streamlit run app.py
+```
