@@ -49,28 +49,70 @@ RecruitAI solves this problem by:
 ## 🏗️ System Architecture
 
 ```text
-Job Description
-       │
-       ▼
-Sentence Transformer
-       │
-       ▼
-JD Embedding Vector
-       │
-       ▼
-Candidate Profiles
-       │
-       ▼
-Candidate Embeddings
-       │
-       ▼
-Hybrid Scoring Engine
-       │
-       ▼
-Candidate Ranking
-       │
-       ▼
-Top Recommended Candidates
+```text
+                         ┌─────────────────────┐
+                         │  Job Description    │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                     ┌─────────────────────────┐
+                     │ Sentence Transformer    │
+                     │ all-MiniLM-L6-v2        │
+                     └──────────┬──────────────┘
+                                │
+                                ▼
+                     ┌─────────────────────────┐
+                     │ JD Embedding Vector     │
+                     └──────────┬──────────────┘
+                                │
+                                │ Cosine Similarity
+                                ▼
+ ┌──────────────────────────────────────────────────────────┐
+ │                 Candidate Database                       │
+ │                                                          │
+ │ • Profile Summary                                        │
+ │ • Skills                                                  │
+ │ • Career History                                          │
+ │ • Current Role                                            │
+ │ • Recruiter Signals                                       │
+ └──────────────────────┬───────────────────────────────────┘
+                        │
+                        ▼
+          ┌───────────────────────────────┐
+          │ Precomputed Candidate         │
+          │ Embeddings (.npy Cache)       │
+          └───────────────┬───────────────┘
+                          │
+                          ▼
+          ┌───────────────────────────────┐
+          │ Semantic Matching Engine      │
+          │ Cosine Similarity             │
+          └───────────────┬───────────────┘
+                          │
+                          ▼
+          ┌───────────────────────────────┐
+          │ Hybrid Scoring Engine         │
+          │                               │
+          │ • Semantic Score              │
+          │ • Career Relevance Score      │
+          │ • Experience Score            │
+          │ • Availability Score          │
+          │ • Recruiter Signal Score      │
+          └───────────────┬───────────────┘
+                          │
+                          ▼
+          ┌───────────────────────────────┐
+          │ Candidate Ranking             │
+          │ Sort by Final Score           │
+          └───────────────┬───────────────┘
+                          │
+                          ▼
+          ┌───────────────────────────────┐
+          │ Top Recommended Candidates    │
+          │ + Explainable Reasons         │
+          └───────────────────────────────┘
+```
+
 ```
 
 ---
