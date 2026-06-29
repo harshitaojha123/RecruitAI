@@ -77,46 +77,58 @@ Top Recommended Candidates
 
 ## 🧠 Ranking Methodology
 
-### 1️⃣ Semantic Similarity
+RecruitAI uses a Hybrid AI Ranking Engine that combines semantic understanding with recruiter-centric signals.
 
-Measures relevance between:
+### Stage 1: Semantic Understanding
 
-- Job Description
-- Candidate Summary
-- Candidate Skills
+The job description is converted into a dense embedding using Sentence Transformers.
 
-Using:
+Each candidate profile is represented using:
 
-- Sentence Transformers
-- Cosine Similarity
+* Professional Summary
+* Skills
+* Career History
+* Current Role
 
-### 2️⃣ Experience Score
+Cosine Similarity is then used to measure relevance between the Job Description and Candidate Profile.
 
-Additional weighting based on:
+### Stage 2: Career Relevance Analysis
 
-- Years of Experience
-- Career Relevance
+Additional scoring is applied based on:
 
-### 3️⃣ Recruiter Signals
+* Current Job Title
+* Domain Relevance
+* Years of Experience
+* Historical Work Experience
 
-Includes:
+This helps prioritize candidates whose career trajectory aligns with the target role.
 
-- GitHub Activity Score
-- Recruiter Response Rate
-- Interview Completion Rate
-- Open To Work Status
+### Stage 3: Recruiter Signal Scoring
 
-### 4️⃣ Final Hybrid Score
+RecruitAI incorporates behavioral and platform signals such as:
 
-```python
+* GitHub Activity
+* Recruiter Response Rate
+* Interview Completion Rate
+* Profile Completeness
+* Saved By Recruiters
+* Open To Work Status
+* Offer Acceptance Rate
+
+
+
+### Stage 4: Hybrid Candidate Ranking
+
 Final Score =
-Semantic Score
-+ Experience Score
-+ GitHub Activity Score
-+ Recruiter Response Score
-+ Interview Completion Score
-+ Open To Work Bonus
-```
+
+Semantic Match Score
+
+* Career Relevance Score
+* Experience Score
+* Recruiter Signal Score
+* Availability Score
+
+Candidates are ranked based on the final hybrid score and returned as an explainable shortlist.
 
 ---
 
