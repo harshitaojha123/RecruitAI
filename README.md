@@ -48,7 +48,7 @@ RecruitAI solves this problem by:
 
 ## 🏗️ System Architecture
 
-```text
+
 ```text
                          ┌─────────────────────┐
                          │  Job Description    │
