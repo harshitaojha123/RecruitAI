@@ -1,21 +1,10 @@
-KEYWORDS = [
-    "retrieval",
-    "ranking",
-    "recommendation",
-    "embedding",
-    "vector",
-    "search",
-    "machine learning",
-    "ml",
-    "ai",
-    "nlp",
-    "production",
-    "ab testing",
-    "evaluation"
-]
+def history_score(candidate, jd_text):
 
-
-def history_score(candidate):
+    jd_keywords = [
+        word.lower()
+        for word in jd_text.split()
+        if len(word) > 3
+    ]
 
     score = 0
 
@@ -23,9 +12,9 @@ def history_score(candidate):
 
         text = job["description"].lower()
 
-        for keyword in KEYWORDS:
+        for keyword in jd_keywords:
 
             if keyword in text:
-                score += 5
+                score += 2
 
     return score

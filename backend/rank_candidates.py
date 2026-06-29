@@ -1,8 +1,13 @@
 import os
 import json
+import numpy as np
 
 from batch_ranker import MODEL
 from sklearn.metrics.pairwise import cosine_similarity
+
+from career_score import career_score, availability_score
+from history_score import history_score
+from redrob_score import redrob_score
 
 
 def rank_candidates(jd_text):
@@ -13,6 +18,23 @@ def rank_candidates(jd_text):
         "raw",
         "candidates.jsonl"
     )
+
+    embeddings_file = os.path.join(
+        os.path.dirname(__file__),
+        "candidate_embeddings.npy"
+    )
+
+    print("Loading candidate embeddings...")
+
+    candidate_embeddings = np.load(
+        embeddings_file
+    )
+
+    print(
+        f"Loaded {len(candidate_embeddings)} embeddings"
+    )
+
+    print("Encoding job description...")
 
     jd_embedding = MODEL.encode(
         [jd_text],
@@ -29,33 +51,13 @@ def rank_candidates(jd_text):
 
         for i, line in enumerate(f):
 
+            if i >= len(candidate_embeddings):
+                break
+
             candidate = json.loads(line)
 
-            career_text = " ".join(
-                job["description"]
-                for job in candidate["career_history"]
-            )
-
-            skills_text = " ".join(
-                skill["name"]
-                for skill in candidate["skills"]
-            )
-
-            text = (
-                candidate["profile"]["summary"]
-                + " "
-                + career_text
-                + " "
-                + skills_text
-            )
-
-            candidate_embedding = MODEL.encode(
-                [text],
-                normalize_embeddings=True
-            )
-
             semantic_score = cosine_similarity(
-                candidate_embedding,
+                candidate_embeddings[i].reshape(1, -1),
                 jd_embedding
             )[0][0]
 
@@ -67,57 +69,82 @@ def rank_candidates(jd_text):
                 "redrob_signals"
             ]
 
-            final_score = semantic_score * 70
+            github_score = max(
+                signals["github_activity_score"],
+                0
+            )
+
+            final_score = semantic_score * 50
 
             final_score += (
                 min(years, 10) * 2
             )
 
-            final_score += signals[
-                "github_activity_score"
-            ]
+            final_score += career_score(
+                candidate,
+                jd_text
+            )
 
-            final_score += (
-                signals[
-                    "recruiter_response_rate"
-                ] * 5
+            final_score += history_score(
+                candidate
+            )
+
+            final_score += availability_score(
+                candidate
+            )
+
+            final_score += redrob_score(
+                candidate
             )
 
             final_score += (
-                signals[
-                    "interview_completion_rate"
-                ] * 5
+                github_score * 0.20
             )
-
-            if signals[
-                "open_to_work_flag"
-            ]:
-                final_score += 5
 
             reasons = []
 
             if semantic_score >= 0.60:
                 reasons.append(
-                    "Strong semantic match"
+                    "Strong semantic alignment with role"
                 )
 
             if years >= 5:
                 reasons.append(
-                    "Experienced candidate"
+                    f"{years} years of experience"
                 )
 
-            if signals[
-                "github_activity_score"
-            ] >= 7:
+            if github_score >= 50:
                 reasons.append(
-                    "High GitHub activity"
+                    "Active GitHub contributor"
                 )
 
-            if signals[
-                "open_to_work_flag"
-            ]:
+            if signals["open_to_work_flag"]:
                 reasons.append(
                     "Open to work"
+                )
+
+            if (
+                signals["saved_by_recruiters_30d"]
+                > 5
+            ):
+                reasons.append(
+                    "Frequently saved by recruiters"
+                )
+
+            if (
+                signals["profile_completeness_score"]
+                >= 90
+            ):
+                reasons.append(
+                    "Highly complete profile"
+                )
+
+            if (
+                signals["interview_completion_rate"]
+                >= 0.80
+            ):
+                reasons.append(
+                    "Strong interview attendance"
                 )
 
             results.append(
@@ -156,10 +183,6 @@ def rank_candidates(jd_text):
                         reasons
                 }
             )
-
-            # Testing on first 500
-            if i >= 500:
-                break
 
     results.sort(
         key=lambda x: x["score"],

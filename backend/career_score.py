@@ -1,43 +1,75 @@
-AI_TITLES = [
-    "Machine Learning Engineer",
-    "ML Engineer",
-    "AI Engineer",
-    "Applied Scientist",
-    "Recommendation Systems Engineer",
-    "Search Engineer",
-    "NLP Engineer",
-    "Data Scientist"
-]
-
-BAD_TITLES = [
-    "HR Manager",
-    "Marketing Manager",
-    "Project Manager",
-    "Sales Executive",
-    "Customer Support"
-]
-
-
-def career_score(candidate):
+def career_score(candidate, jd_text):
 
     score = 0
 
-    title = candidate["profile"]["current_title"]
+    title = candidate["profile"][
+        "current_title"
+    ].lower()
 
-    for good_title in AI_TITLES:
+    jd = jd_text.lower()
 
-        if good_title.lower() in title.lower():
+    # AI / ML roles
+    if any(
+        word in jd
+        for word in [
+            "ai",
+            "machine learning",
+            "ml",
+            "nlp",
+            "llm",
+            "rag",
+            "data scientist"
+        ]
+    ):
+
+        ai_titles = [
+            "machine learning engineer",
+            "ml engineer",
+            "ai engineer",
+            "applied scientist",
+            "recommendation systems engineer",
+            "search engineer",
+            "nlp engineer",
+            "data scientist"
+        ]
+
+        if any(
+            t in title
+            for t in ai_titles
+        ):
             score += 30
+        else:
+            score -= 20
 
-    for bad_title in BAD_TITLES:
+    # HR roles
+    elif any(
+        word in jd
+        for word in [
+            "hr",
+            "human resources",
+            "talent acquisition",
+            "recruitment",
+            "recruiter"
+        ]
+    ):
 
-        if bad_title.lower() in title.lower():
-            score -= 40
+        hr_titles = [
+            "hr manager",
+            "recruiter",
+            "talent acquisition",
+            "human resources"
+        ]
 
-
-            
+        if any(
+            t in title
+            for t in hr_titles
+        ):
+            score += 30
+        else:
+            score -= 20
 
     return score
+
 
 def availability_score(candidate):
 
